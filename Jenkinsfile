@@ -18,7 +18,6 @@ pipeline {
             }
             steps {
                 sh '''
-                    apk add --no-cache bash git
                     ls -la
                     node --version
                     npm --version
@@ -39,7 +38,6 @@ pipeline {
 
             steps {
                 sh '''
-                    apk add --no-cache bash git
                     test -f build/index.html
                     npm test
                 '''
@@ -55,12 +53,11 @@ pipeline {
             }
             steps {
                 sh '''
-                    apk add --no-cache bash git
                     npm install netlify-cli
                     node_modules/.bin/netlify --version
                     echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --dir=build --prod
+                    node_modules/.bin/netlify deploy --dir=build --prod --site=$NETLIFY_SITE_ID
                 '''
             }
         }
